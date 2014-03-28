@@ -4,5 +4,6 @@
     <string name="app_name">Hello Android</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello 21W.789!</string>
+    <string name="loading">Loading Data...</string>
 
 </resources>
