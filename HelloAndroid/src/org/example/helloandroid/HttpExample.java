@@ -1,6 +1,7 @@
 package org.example.helloandroid;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.widget.TextView;
@@ -10,25 +11,44 @@ public class HttpExample extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
-	       if (android.os.Build.VERSION.SDK_INT > 9) {
-               StrictMode.ThreadPolicy policy = 
-                       new StrictMode.ThreadPolicy.Builder().permitAll().build();
-               StrictMode.setThreadPolicy(policy);
-               }
 	       
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.httpex);
 		httpStuff = (TextView) findViewById(R.id.tvHttp);
-		GetMethodEx test = new GetMethodEx();
-		String returned;
-		try{
-			returned = test.getInternetData();
-			httpStuff.setText(returned);
+		LoadGetResponse loader = new LoadGetResponse();
+		loader.execute("start");
+	}
+
+		
+	
+	public class LoadGetResponse extends AsyncTask<String,Integer,String>{
+		
+		protected void onPreExecute(String s){
+			
 		}
-		catch(Exception e){
-			e.printStackTrace();
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			GetMethodEx test = new GetMethodEx();
+			String returned = null;
+			try{
+				returned = test.getInternetData();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return returned;
 		}
 		
+		protected void onProgressUpdated(Integer...progress){
+			
+		}
+		
+		protected void onPostExecute(String result){
+			httpStuff.setText(result);
+			
+		}
 	}
+
 
 }
